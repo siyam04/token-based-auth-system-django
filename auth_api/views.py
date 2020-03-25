@@ -1,11 +1,52 @@
 from pprint import pprint
+from django.contrib import messages
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.http import require_http_methods
 
+from django.contrib.auth.models import User
+
 from .models import Token
+
+
+# signup api
+@csrf_exempt
+@require_http_methods(["POST"])
+def signup(request):
+    import json
+
+    if request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+
+        username = body_data['username']
+        password = body_data['password']
+        email = body_data['email']
+        first_name = body_data['first_name']
+        last_name = body_data['last_name']
+
+        if username and password and email and first_name and last_name:
+            token = generate_token()
+
+            User.objects.create(
+                username=username,
+                password=password,
+                email=email,
+                first_name=first_name,
+                last_name=last_name
+            )
+
+            formatted_token = json_formatter(token)
+
+            return JsonResponse(formatted_token, safe=False)
+
+        else:
+            return JsonResponse('Signup Failed!', safe=False)
 
 
 # login api
@@ -34,7 +75,7 @@ def login(request):
                 return JsonResponse(formatted_token, safe=False)
 
             else:
-                return JsonResponse('Not Found!', safe=False)
+                return JsonResponse('Login Failed!', safe=False)
 
 
 # custom token generating
@@ -58,6 +99,16 @@ def json_formatter(object):
     jsonifyed_object = json.dumps(decoding_object)
 
     return jsonifyed_object
+
+#################################################################################################
+
+# logout api
+# @csrf_exempt
+# @login_required
+# @require_http_methods(["POST"])
+# def logout(request):
+#     logout(request)
+#     return JsonResponse('Logout Successfully!', safe=False)
 
 
 
