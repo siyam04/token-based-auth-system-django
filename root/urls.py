@@ -22,8 +22,8 @@ urlpatterns = [
     # django admin
     path('admin/', admin.site.urls),
 
-    # app-1
-    path('', include('auth_api.urls', namespace='auth_api')),
+    # api
+    path('api/', include('auth_api.urls')),
 
 ]
 

@@ -1,6 +1,4 @@
-import json
 from pprint import pprint
-
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
@@ -14,6 +12,8 @@ from .models import Token
 @csrf_exempt
 @require_http_methods(["POST"])
 def login(request):
+    import json
+
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
@@ -28,12 +28,13 @@ def login(request):
                 token = generate_token()
                 Token.objects.create(user=authenticated, token=token)
 
-                token_dic = {'token': token}
+                formatted_token = json_formatter(token)
+                print(type(formatted_token))
 
-                return JsonResponse(str(token_dic), safe=False)
-        else:
-            message = 'Not Found!'
-            return JsonResponse(message, safe=False)
+                return JsonResponse(formatted_token, safe=False)
+
+            else:
+                return JsonResponse('Not Found!', safe=False)
 
 
 # custom token generating
@@ -46,6 +47,17 @@ def generate_token():
     token_encoding = base64.b64encode(token_bytes)
 
     return token_encoding
+
+
+# json formatter
+# ToDo: not returning JSON, returns string
+def json_formatter(object):
+    import json
+
+    decoding_object = object.decode('utf-8')
+    jsonifyed_object = json.dumps(decoding_object)
+
+    return jsonifyed_object
 
 
 

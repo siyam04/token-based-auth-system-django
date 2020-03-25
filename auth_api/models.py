@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Token(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     token = models.CharField(max_length=250)
 
     def __str__(self):
