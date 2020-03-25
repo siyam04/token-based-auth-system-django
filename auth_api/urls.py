@@ -1,18 +1,21 @@
 from django.urls import path
 
-from .views import signup, login, logout
-
-
-app_name = 'auth_api'
+# custom app
+from .views import sign_up, login, logout
 
 
 urlpatterns = [
 
-    path('signup/', signup),
+    # sign-up api
+    path('sign-up/', sign_up),
 
+    # login api
     path('login/', login),
 
+    # logout api
     path('logout/', logout),
 
 ]
+
+
 
