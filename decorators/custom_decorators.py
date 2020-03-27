@@ -14,7 +14,7 @@ class CheckToken():
             token = request.headers['Token']
             matched_token = Token.objects.get(token=token)
             if matched_token:
-                print("token: {}".format(matched_token))
+                print(f"token: {matched_token}")
                 return self.__func(request)
             else:
                 return JsonResponse({'message': 'Token Not Matched!'}, status=401)
