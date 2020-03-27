@@ -1,4 +1,3 @@
-from pprint import pprint
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
@@ -6,6 +5,9 @@ from django.views.decorators.http import require_http_methods
 
 # auth user model
 from django.contrib.auth.models import User
+
+# custom decorator for checking token
+from decorators.custom_decorators import CheckToken
 
 # custom app model
 from .models import Token
@@ -23,7 +25,7 @@ def sign_up(request):
     last_name = request.POST.get('last_name')
 
     # if data available
-    if username and  email and password and first_name and last_name:
+    if username and email and password and first_name and last_name:
         # user creation
         user = User.objects.create_user(
             username=username,
@@ -109,6 +111,13 @@ def generate_token():
     import time
 
     return str(int(time.time()))
+
+
+# random method after token checking
+@CheckToken
+@require_http_methods(["GET"])
+def random_method(request):
+    return JsonResponse({'message': 'Random Method Calling Successfully!'}, status=200)
 
 
 

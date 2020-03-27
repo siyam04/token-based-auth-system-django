@@ -7,3 +7,5 @@ from .models import Token
 class TokenAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'token']
 
+
+
