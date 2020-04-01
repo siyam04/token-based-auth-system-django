@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # vendors
+    'rest_framework',
 
     # custom app
     'auth_api',
+    'practice_api',
 ]
 
 MIDDLEWARE = [

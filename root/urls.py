@@ -22,6 +22,9 @@ urlpatterns = [
     # django admin
     path('admin/', admin.site.urls),
 
+
+    path('rest-api/', include('rest_framework.urls')),
+
     # api
     path('api/', include('auth_api.urls')),
 
