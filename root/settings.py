@@ -40,8 +40,9 @@ INSTALLED_APPS = [
 
     # vendors
     'rest_framework',
+    'django_seed',
 
-    # custom app
+    # custom apps
     'auth_api',
     'practice_api',
 ]

@@ -22,11 +22,14 @@ urlpatterns = [
     # django admin
     path('admin/', admin.site.urls),
 
+    # DRF urls
+    path('api-auth/', include('rest_framework.urls')),
 
-    path('rest-api/', include('rest_framework.urls')),
-
-    # api
+    # token-based authentication api
     path('api/', include('auth_api.urls')),
+
+    # practice api
+    # path('api-practice/', include('practice_api.urls')),
 
 ]
 
