@@ -13,5 +13,8 @@
 >> (method: GET) (accept headers token) (authentication decorator)
 * http://127.0.0.1:8000/api/random/ 
 
-### How To Run Faker Script:
+### How to Run Faker Script:
 * cd token-based-auth-system-django $> python django_faker.py
+
+### How to Run Django Seeder Script:
+* cd token-based-auth-system-django $> python manage.py seed practice_api --number=10
