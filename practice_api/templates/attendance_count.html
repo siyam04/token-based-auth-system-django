@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Attendance</title>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
+    <!--CSS-->
     <style>
         table {
             font-family: arial, sans-serif;
@@ -19,51 +17,94 @@
             padding: 8px;
         }
 
-        tr:nth-child(even) {
+        th {
             background-color: #dddddd;
         }
     </style>
+    <!--Vue CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--Axios CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
 </head>
 
 <body>
     <div class="input">
-        <h1>Create Attendance</h1>
+        <h1>ATTENDANCE</h1>
         <form action="" method="get">
-            <label for="class_number">CLASS NAME</label>
-            <input id="class_number" type="number" name="class_number" min="1">
+            <label for="class_number">class</label>
+            <input id="class_number" type="number" name="class_number" min="1" placeholder="enter class number">
             <input type="submit" value="Submit">
         </form>
     </div>
     <br><br>
 
-    <div>{% include 'messages.html' %}</div>
-
-    <div class="output">
-        <table>
+    <!--VueJs block-->
+    <div id="app">
+        <div class="output">
+            <table>
             <tr>
-                <th>ID</th>
+                <th>SL</th>
                 <th>Name</th>
                 <th>Roll</th>
                 <th>Class</th>
-                <th>Count</th>
+                <th>Attendance</th>
             </tr>
             {% if students %}
+                <div>{% include 'messages.html' %}</div>
+
                 {% for student in students %}
                     <tr>
-                        <td>{{ student.id }}</td>
+                        <td>{{ forloop.counter }}</td>
                         <td>{{ student.std_name }}</td>
                         <td>{{ student.std_roll }}</td>
                         <td>{{ student.std_class }}</td>
                         <td>
-                            <button class="btn_class" type="submit">COUNT</button>
+                            <button class="btn_class" type="submit">PRESENT</button>
+{#                            <button class="btn_class" type="submit" @click="present(student.id)">PRESENT</button>#}
                         </td>
                     </tr>
                 {% endfor %}
             {% endif %}
         </table>
+        </div>
     </div>
+    <!--VueJs block END-->
 
-    <script src="../static/js/main.js"></script>
+    <!--VueJS settings-->
+{#    <script>#}
+{#        var app = new Vue({#}
+{#            el: '#app',#}
+{#            delimiters: ['[[', ']]'],#}
+{#            data: {#}
+{#                message: 'Hello Vue!',#}
+{#                students: [],#}
+{#,#}
+{#            }, //data#}
+{##}
+{#            created() {#}
+{#                axios.get('http://127.0.0.1:8000/api/data')#}
+{#                    .then(response => {#}
+                        {#console.log(response.data.districts)#}
+{#                        this.divisions = response.data.division;#}
+{#                        this.categories = response.data.category#}
+{#                    });#}
+{##}
+{#            },#}
+{#            methods: {#}
+{##}
+{#                present(id) {#}
+{#                    axios.get('http://127.0.0.1:8000/api-drf/attendance/' + 1 + '/' + 2 + '/')#}
+{#                        .then(response => {#}
+{#                            this.student = response.data#}
+{#                        })#}
+{#                },#}
+{##}
+{#            },//methods#}
+{##}
+{#        })//main#}
+{##}
+{#    </script>#}
+    <!--VueJS settings-->
 
 </body>
 </html>

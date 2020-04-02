@@ -3,7 +3,7 @@ from django.urls import path
 # custom app
 from .views import (
 
-    student_attendance,
+    StudentAttendance,
     attendance_count,
 )
 
@@ -11,7 +11,7 @@ from .views import (
 urlpatterns = [
 
     # attendance create api
-    path('attendance/<int:roll_no>/<int:class_no>/', student_attendance),
+    path('attendance/<int:roll_no>/<int:class_no>/', StudentAttendance.as_view()),
 
     # attendance count
     path('att-count/', attendance_count, name='att-count'),
