@@ -15,7 +15,8 @@ from practice_api.models import Student, Attendance
 fake_data = Faker()
 
 # my custom classes
-topics = ['Class 1', 'Class 2', 'Class 3']
+# classes = ['Class 1', 'Class 2', 'Class 3']
+classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 
 # 1st, creating student object with fake data
@@ -23,7 +24,7 @@ def add_student():
     student = Student.objects.get_or_create(
         std_name=fake_data.name(),
         std_roll=random.randint(1, 20),
-        std_class=random.choice(topics),
+        std_class=random.choice(classes),
     )[0]
 
 # note: [0] = I use get_or_create() method, if student object already exists then get from first index.

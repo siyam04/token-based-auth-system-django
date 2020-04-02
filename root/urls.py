@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/', include('auth_api.urls')),
 
     # practice api
-    # path('api-practice/', include('practice_api.urls')),
+    path('api-drf/', include('practice_api.urls')),
 
 ]
 
