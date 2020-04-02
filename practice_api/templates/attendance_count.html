@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Attendance</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="input">
+        <h1>Create Attendance</h1>
+        <form action="" method="get">
+            <label for="class_number">CLASS NAME</label>
+            <input id="class_number" type="number" name="class_number" min="1">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <br><br>
+
+    <div>{% include 'messages.html' %}</div>
+
+    <div class="output">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Roll</th>
+                <th>Class</th>
+                <th>Count</th>
+            </tr>
+            {% if students %}
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.std_name }}</td>
+                        <td>{{ student.std_roll }}</td>
+                        <td>{{ student.std_class }}</td>
+                        <td>
+                            <button class="btn_class" type="submit">COUNT</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
+
+    <script src="../static/js/main.js"></script>
+
+</body>
+</html>
