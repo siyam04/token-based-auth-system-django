@@ -16,14 +16,14 @@ fake_data = Faker()
 
 # my custom classes
 # classes = ['Class 1', 'Class 2', 'Class 3']
-classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+classes = [1, 2, 3]
 
 
 # 1st, creating student object with fake data
 def add_student():
     student = Student.objects.get_or_create(
         std_name=fake_data.name(),
-        std_roll=random.randint(1, 20),
+        std_roll=random.randint(1, 5),
         std_class=random.choice(classes),
     )[0]
 

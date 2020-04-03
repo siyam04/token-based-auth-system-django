@@ -11,7 +11,7 @@ class Student(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name_plural = 'Students'
-        # unique_together = ['std_roll', 'std_class']
+        unique_together = ['std_roll', 'std_class']
 
     def __str__(self):
         return self.std_name
@@ -26,7 +26,7 @@ class AttendanceManager(models.Manager):
 
 
 class Attendance(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey(Student, default=None, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField(auto_now_add=True, null=True, blank=True)
     status = models.BooleanField()
 
@@ -36,7 +36,7 @@ class Attendance(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name_plural = 'Attendance'
-        # unique_together = ['student', 'date']
+        unique_together = ['student', 'date']
 
     def __str__(self):
         return str(self.student.std_roll)

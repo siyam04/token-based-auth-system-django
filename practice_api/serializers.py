@@ -9,9 +9,10 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AttendanceSerializer(serializers.ModelSerializer):
-    # students = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta:
-        model = Attendance
-        fields = ('student', 'date', 'status')
+# class AttendanceSerializer(serializers.ModelSerializer):
+#     # students = serializers.PrimaryKeyRelatedField(read_only=True)
+#
+#     class Meta:
+#         model = Attendance
+#         # fields = ('student', 'date', 'status')
+#         fields = '__all__'
