@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Attendance</title>
+    <!--CSS-->
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #dddddd;
+        }
+    </style>
+    <!--Vue CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--Axios CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+</head>
+
+<body>
+    <div class="input">
+        <h1>ATTENDANCE</h1>
+        <form action="" method="get">
+            <label for="class_number">class</label>
+            <input id="class_number" type="number" name="class_number" min="1" v-model="inputted_class_no" placeholder="enter class number">
+            <button type="submit">SELECT</button>
+        </form>
+    </div>
+    <br><br>
+
+    <!--VueJs block-->
+    <div id="app">
+
+        <!--contents-->
+        <div class="output">
+            <table>
+                <tr>
+                    <th>SL</th>
+                    <th>Name</th>
+                    <th>Roll</th>
+                    <th>Class</th>
+                    <th>Attendance</th>
+                </tr>
+
+                <tr v-for="student in students" :key="student.id">
+                    <td>1</td>
+                    <td>[[student.id]]</td>
+                    <td>[[student.std_name]]</td>
+                    <td>[[student.std_roll]]</td>
+                    <td>[[student.std_class]]</td>
+                    <td>
+                        <button class="btn_class" type="submit" @click="presentCount()">PRESENT</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--contents END-->
+
+    </div>
+    <!--VueJs block END-->
+
+    <!--VueJS settings-->
+    <script>
+        var app = new Vue({
+            el: '#app',
+            delimiters: ['[[', ']]'],
+            data: {
+                message: 'Hello Vue!',
+                students: [],
+
+                inputted_class_no: null,
+
+                present_count_roll: null,
+                present_count_class: null,
+
+            },//data
+
+            created() {
+                axios.get('http://127.0.0.1:8000/api-drf/filtered-student/' + this.inputted_class_no)
+                    .then(response => {
+                        console.log(response.data);
+                        this.students = response.data;
+                    });
+            },//created
+
+        })//main app
+
+    </script>
+    <!--VueJS settings-->
+
+</body>
+</html>
+

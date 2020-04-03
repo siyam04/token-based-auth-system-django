@@ -1,8 +1,10 @@
 # django packages
 from pprint import pprint
 from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView
 
 # DRF packages
@@ -14,6 +16,11 @@ from rest_framework.response import Response
 # my app
 from .models import Student, Attendance
 from .serializers import StudentSerializer
+
+
+# static view
+class Dashboard(TemplateView):
+    template_name = 'dashboard.html'
 
 
 # API: creating attendance
@@ -53,4 +60,5 @@ class FilteredStudent(APIView):
             return Response(data=serialized_students.data, status=status.HTTP_302_FOUND)
         else:
             return Response({'message': 'students not found!'}, status=status.HTTP_404_NOT_FOUND)
+
 
