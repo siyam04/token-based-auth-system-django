@@ -4,16 +4,18 @@ from django.urls import path
 from .views import (
 
     StudentAttendance,
-    attendance_count,
+    FilteredStudent,
 )
 
 
 urlpatterns = [
 
-    # attendance create api
-    path('attendance/<int:roll_no>/<int:class_no>/', StudentAttendance.as_view()),
+    # create attendance api
+    path('create-attendance/<int:roll_no>/<int:class_no>/', StudentAttendance.as_view()),
 
-    # attendance count
-    path('att-count/', attendance_count, name='att-count'),
+    # filtered students api by class number
+    path('filtered-student/<int:class_no>/', FilteredStudent.as_view()),
 
 ]
+
+

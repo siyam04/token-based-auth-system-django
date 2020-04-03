@@ -11,66 +11,44 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-# custom app
+# my app
 from .models import Student, Attendance
-# from .serializers import StudentSerializer
+from .serializers import StudentSerializer, AttendanceSerializer
 
 
-# FBV api
-# @api_view(['GET'])
-# def student_attendance(request, roll_no, class_no):
-#     try:
-#         # note: Attendance.objects, here 'objects' is custom model manager objects
-#         attendance = Attendance.objects.set_attendance(roll_no, class_no)
-#         data = {
-#             'message':
-#                 f"attendance created for: {attendance.student.std_name}, "
-#                 f"roll: {attendance.student.std_roll}, "
-#                 f"class: {attendance.student.std_class}"
-#         }
-#         return Response(data=data, status=status.HTTP_201_CREATED)
-#
-#     except Exception as err:
-#         pprint(err)
-#         return Response({'status': 'already exists!'}, status=status.HTTP_208_ALREADY_REPORTED)
-
-
-# CBV api for creating attendance
+# API: creating attendance
 class StudentAttendance(APIView):
-    def get(self, request, roll_no, class_no):
-        try:
-            # note: Attendance.objects, here 'objects' is custom model manager objects
-            attendance = Attendance.objects.set_attendance(roll_no, class_no)
-            data = {
-                'message':
-                    f"attendance created for: {attendance.student.std_name}, "
-                    f"roll: {attendance.student.std_roll}, "
-                    f"class: {attendance.student.std_class}"
-            }
-            return Response(data=data, status=status.HTTP_201_CREATED)
+    # GET method
+    def get(self, request, roll_no=None, class_no=None):
+        # Note: Attendance.objects, here 'objects' is custom model manager objects (CREATE)
+        attendance = Attendance.objects.set_attendance(roll_no, class_no)
+        print('TEST DATA: ', attendance)
 
-        except Exception as err:
-            pprint(err)
-            return Response({'status': 'already exists!'}, status=status.HTTP_208_ALREADY_REPORTED)
+        # if attendance:
+        #     serialized_attendance = AttendanceSerializer(attendance)
+        #     return Response(serialized_attendance.data, status=status.HTTP_302_FOUND)
+        # else:
+        #     return Response({'message': 'attendance not found!'}, status=status.HTTP_404_NOT_FOUND)
+
+        data = {
+            'message': 'attendance created successfully!',
+            'student_name': attendance.student.std_name,
+            'roll': attendance.student.std_roll,
+            'class': attendance.student.std_class,
+            'date': attendance.date,
+            'status': attendance.status
+        }
+        return Response(data=data, status=status.HTTP_201_CREATED)
 
 
-# FBV static method for filtering students
-def attendance_count(request):
-    class_number = request.GET.get('class_number', None)
-
-    if class_number:
-        students = Student.objects.filter(std_class=class_number).order_by('std_roll')
-
+# API: filtered students according to class number
+class FilteredStudent(APIView):
+    # GET method
+    def get(self, request, class_no=None):
+        students = Student.objects.filter(std_class=class_no)
         if students:
-            context = {'students': students}
-            template = 'attendance_count.html'
-            messages.success(request, 'Student Found!', extra_tags='html_safe')
-            return render(request, template, context)
+            serialized_students = StudentSerializer(students, many=True)
+            return Response(data=serialized_students.data, status=status.HTTP_302_FOUND)
         else:
-            return HttpResponse('Not Found!')
-    else:
-        template = 'attendance_count.html'
-        context = {}
-        return render(request, template, context)
-
+            return Response({'message': 'students not found!'}, status=status.HTTP_404_NOT_FOUND)
 

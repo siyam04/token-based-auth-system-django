@@ -44,6 +44,7 @@
             <table>
             <tr>
                 <th>SL</th>
+                <th>DB id</th>
                 <th>Name</th>
                 <th>Roll</th>
                 <th>Class</th>
@@ -55,6 +56,7 @@
                 {% for student in students %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
+                        <td>{{ student.id }}</td>
                         <td>{{ student.std_name }}</td>
                         <td>{{ student.std_roll }}</td>
                         <td>{{ student.std_class }}</td>
@@ -71,39 +73,33 @@
     <!--VueJs block END-->
 
     <!--VueJS settings-->
-{#    <script>#}
-{#        var app = new Vue({#}
-{#            el: '#app',#}
-{#            delimiters: ['[[', ']]'],#}
-{#            data: {#}
-{#                message: 'Hello Vue!',#}
-{#                students: [],#}
-{#,#}
-{#            }, //data#}
-{##}
-{#            created() {#}
-{#                axios.get('http://127.0.0.1:8000/api/data')#}
-{#                    .then(response => {#}
-                        {#console.log(response.data.districts)#}
-{#                        this.divisions = response.data.division;#}
-{#                        this.categories = response.data.category#}
-{#                    });#}
-{##}
-{#            },#}
-{#            methods: {#}
-{##}
-{#                present(id) {#}
-{#                    axios.get('http://127.0.0.1:8000/api-drf/attendance/' + 1 + '/' + 2 + '/')#}
-{#                        .then(response => {#}
-{#                            this.student = response.data#}
-{#                        })#}
-{#                },#}
-{##}
-{#            },//methods#}
-{##}
-{#        })//main#}
-{##}
-{#    </script>#}
+    <script>
+        var app = new Vue({
+            el: '#app',
+            delimiters: ['[[', ']]'],
+            data: {
+                message: 'Hello Vue!',
+                students: [],
+,
+            }, //data
+
+            created() {
+                axios.get('http://127.0.0.1:8000/api-drf/filtered-student/4/')
+                    .then(response => {
+                        console.log(response.data);
+                        this.divisions = response.data.division;
+                        this.categories = response.data.category
+                    });
+
+            },//created
+
+            methods: {
+
+            },//methods
+
+        })//main
+
+    </script>
     <!--VueJS settings-->
 
 </body>
