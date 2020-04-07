@@ -38,9 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # vendors
-    'rest_framework',
+    # 3rd party vendors
     'django_seed',
+
+    # DRF
+    'rest_framework',
+
+    # DRF authtoken
+    'rest_framework.authtoken',
 
     # custom apps
     'auth_api',
@@ -137,4 +142,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # LOGIN_REDIRECT_URL = 'home'
 # LOGOUT_REDIRECT_URL = 'home'
+
+
+# # DRF authtoken settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 

@@ -18,6 +18,9 @@ from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 
+# DRF authtoken
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 urlpatterns = [
 
@@ -27,10 +30,13 @@ urlpatterns = [
     # DRF urls
     path('api-auth/', include('rest_framework.urls')),
 
-    # token-based authentication api
+    # DRF authtoken
+    path('api-token-auth/', obtain_auth_token),
+
+    # custom app-1 (token-based authentication api)
     path('api/', include('auth_api.urls')),
 
-    # practice api
+    # custom app-2 (practice api)
     path('api-drf/', include('practice_api.urls')),
 
 
