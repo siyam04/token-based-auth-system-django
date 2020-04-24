@@ -8,8 +8,11 @@ from .views import (
     Logout,
 
     Dashboard,
+    AllStudent,
     FilteredStudent,
     StudentAttendance,
+
+    JWTView,
 )
 
 
@@ -17,6 +20,9 @@ urlpatterns = [
 
     # static dashboard
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
+
+    # API: all students
+    path('students/', AllStudent.as_view()),
 
     # API: create attendance
     path('create-attendance/<int:roll_no>/<int:class_no>', StudentAttendance.as_view()),
@@ -29,6 +35,12 @@ urlpatterns = [
     path('login/', Login.as_view()),
     path('logout/', Logout.as_view()),
 
+    # API: JWT testing
+    path('jwt-testing/', JWTView.as_view()),
+
+
 ]
+
+
 
 

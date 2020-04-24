@@ -21,6 +21,9 @@ from django.conf.urls.static import static
 # DRF authtoken
 from rest_framework.authtoken.views import obtain_auth_token
 
+# jwt
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 urlpatterns = [
 
@@ -32,6 +35,10 @@ urlpatterns = [
 
     # DRF authtoken
     path('api-token-auth/', obtain_auth_token),
+
+    # jwt
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # custom app-1 (token-based authentication api)
     path('api/', include('auth_api.urls')),

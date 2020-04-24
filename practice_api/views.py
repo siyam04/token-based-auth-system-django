@@ -8,9 +8,10 @@ from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
+# DRF validation
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import (
 
     TokenAuthentication,
@@ -31,6 +32,17 @@ from .serializers import (
 # static view
 class Dashboard(TemplateView):
     template_name = 'dashboard.html'
+
+
+# API: all students
+class AllStudent(APIView):
+    def get(self, request):
+        students = Student.objects.all().order_by('std_roll')
+        if students:
+            serialized_students = StudentSerializer(students, many=True)
+            return Response(data=serialized_students.data, status=status.HTTP_302_FOUND)
+        else:
+            return Response({'message': 'students not found!'}, status=status.HTTP_404_NOT_FOUND)
 
 
 # API: creating attendance
@@ -68,6 +80,9 @@ class FilteredStudent(APIView):
             return Response(data=serialized_students.data, status=status.HTTP_302_FOUND)
         else:
             return Response({'message': 'students not found!'}, status=status.HTTP_404_NOT_FOUND)
+
+
+##################################### DRF Token-based auth starts from here #####################################
 
 
 # API: Signup and Token generating using Signals
@@ -114,14 +129,16 @@ class Signup(APIView):
 
 # APi: Login
 class Login(APIView):
-    authentication_classes = [TokenAuthentication, ]
+    # authentication_classes = [TokenAuthentication, ]
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
     # permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated | ReadOnly]
 
     def post(self, request):
         # getting api data
         username = request.POST.get('username')
         password = request.POST.get('password')
+
         token = request.headers['Token']
 
         # if data available
@@ -145,6 +162,7 @@ class Login(APIView):
             return Response({'message': 'Data Not Found!'}, status=status.HTTP_404_NOT_FOUND)
 
 
+# APi: Logout
 class Logout(APIView):
     authentication_classes = [TokenAuthentication, ]
 
@@ -172,4 +190,15 @@ class Logout(APIView):
         # if not succeed
         else:
             return Response({'message': 'Token Not Found!'}, status=status.HTTP_404_NOT_FOUND)
+
+
+###################################### jWT testing #############################################################
+
+class JWTView(APIView):
+    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+
+    def get(self, request):
+        content = {'message': 'JWT testing!'}
+        return Response(content)
 

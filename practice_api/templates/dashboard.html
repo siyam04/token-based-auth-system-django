@@ -23,6 +23,7 @@
     </style>
     <!--Vue CDN-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+{#    <script src="https://unpkg.com/vue"></script>#}
     <!--Axios CDN-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
 </head>
@@ -42,6 +43,8 @@
 
     <!--VueJs block-->
     <div id="app">
+        <h1>[[message]]</h1>
+        <p>[[students]]</p>
 
         <!--contents-->
         <div class="output">
@@ -55,7 +58,7 @@
                 </tr>
 
                 <tr v-for="student in students" :key="student.id">
-                    <td>1</td>
+                    <td></td>
                     <td>[[student.id]]</td>
                     <td>[[student.std_name]]</td>
                     <td>[[student.std_roll]]</td>
@@ -75,27 +78,37 @@
         var app = new Vue({
             el: '#app',
             delimiters: ['[[', ']]'],
-            data: {
-                message: 'Hello Vue!',
-                students: [],
+            data() {
+                return {
+                    message: 'Hello Vue!',
+                    students: [],
 
-                inputted_class_no: null,
+                    inputted_class_no: null,
 
-                present_count_roll: null,
-                present_count_class: null,
+                    present_count_roll: null,
+                    present_count_class: null,
+
+                }
 
             },//data
 
-            methods: {
-                inputNumber() {
-                    axios.get('http://127.0.0.1:8000/api-drf/filtered-student/' + this.inputted_class_no)
+            created() {
+                axios.get('http://127.0.0.1:8000/api-drf/students/')
                     .then(response => {
                         console.log(response.data);
                         this.students = response.data;
-                    });
-                },//inputNumber()
+                    })
+            },//created
 
-            },//methods
+            {#methods: {#}
+            {#    inputNumber() {#}
+            {#        axios.get('http://127.0.0.1:8000/api-drf/filtered-student/' + this.inputted_class_no)#}
+            {#        .then(response => {#}
+            {#            console.log(response.data);#}
+            {#            this.students = response.data;#}
+            {#        });#}
+            {#    },//inputNumber()#}
+            {##}//methods
 
         })//main app
 
